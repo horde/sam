@@ -10,7 +10,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-13</date>
+ <date>2017-10-16</date>
  <version>
   <release>1.0.0alpha1</release>
   <api>1.0.0alpha1</api>
@@ -164,7 +164,7 @@
    <file name="blacklist.php" role="horde" />
    <file name="COPYING" role="doc" />
    <file name="index.php" role="horde" />
-   <file name="README" role="doc" />
+   <file name="README.rst" role="doc" />
    <file name="spam.php" role="horde" />
    <file name="whitelist.php" role="horde" />
   </dir> <!-- / -->
@@ -200,7 +200,7 @@
    <install as="sam/blacklist.php" name="blacklist.php" />
    <install as="COPYING" name="COPYING" />
    <install as="sam/index.php" name="index.php" />
-   <install as="README" name="README" />
+   <install as="README.rst" name="README.rst" />
    <install as="sam/spam.php" name="spam.php" />
    <install as="sam/whitelist.php" name="whitelist.php" />
    <install as="sam/config/.htaccess" name="config/.htaccess" />
@@ -275,7 +275,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2017-10-13</date>
+   <date>2017-10-16</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
 * Initial release.
