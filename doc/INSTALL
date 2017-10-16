@@ -19,7 +19,7 @@ The SpamAssassin Module can be obtained from the Horde website and FTP server, a
    ftp://ftp.horde.org/pub/sam/
 
 Bleeding-edge development versions of the SpamAssassin Module are available via
-CVS; see the file docs/HACKING in the Horde distribution for information on
+CVS; see the file doc/HACKING in the Horde distribution for information on
 accessing the Horde CVS repository.
 
 
@@ -133,7 +133,7 @@ CONFIGURING The SpamAssassin Module
    provide local translations of text displayed by applications; the
    translations are found in the po/ directory.  If a translation is not yet
    available for your locale (and you wish to create one), or if you're having
-   trouble using a provided translation, please see the horde/docs/TRANSLATIONS
+   trouble using a provided translation, please see the horde/doc/TRANSLATIONS
    file for instructions.
 
 4. Testing The SpamAssassin Module
@@ -171,5 +171,3 @@ volunteers. For information on reasonable support expectations, please read
 Thanks for using the SpamAssassin Module!
 
 The Horde team
-
-$Horde: sam/docs/INSTALL,v 1.10 2007/06/19 09:56:34 jan Exp $
