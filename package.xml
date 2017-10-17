@@ -35,9 +35,9 @@
    </dir> <!-- /config -->
    <dir name="doc">
     <file name="CHANGES" role="doc" />
-    <file name="CREDITS" role="doc" />
-    <file name="INSTALL" role="doc" />
-    <file name="TODO" role="doc" />
+    <file name="CREDITS.rst" role="doc" />
+    <file name="INSTALL.rst" role="doc" />
+    <file name="TODO.rst" role="doc" />
    </dir> <!-- /doc -->
    <dir name="lib">
     <dir name="Driver">
@@ -205,9 +205,9 @@
    <install as="sam/config/hooks.php.dist" name="config/hooks.php.dist" />
    <install as="sam/config/menu.php.dist" name="config/menu.php.dist" />
    <install as="CHANGES" name="doc/CHANGES" />
-   <install as="CREDITS" name="doc/CREDITS" />
-   <install as="INSTALL" name="doc/INSTALL" />
-   <install as="TODO" name="doc/TODO" />
+   <install as="CREDITS.rst" name="doc/CREDITS.rst" />
+   <install as="INSTALL.rst" name="doc/INSTALL.rst" />
+   <install as="TODO.rst" name="doc/TODO.rst" />
    <install as="sam/index.php" name="index.php" />
    <install as="sam/lib/.htaccess" name="lib/.htaccess" />
    <install as="sam/lib/Api.php" name="lib/Api.php" />
