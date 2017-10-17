@@ -10,7 +10,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-16</date>
+ <date>2017-10-17</date>
  <version>
   <release>1.0.0alpha1</release>
   <api>1.0.0alpha1</api>
@@ -162,8 +162,8 @@
     </dir> <!-- /themes/default -->
    </dir> <!-- /themes -->
    <file name="blacklist.php" role="horde" />
-   <file name="COPYING" role="doc" />
    <file name="index.php" role="horde" />
+   <file name="LICENSE" role="doc" />
    <file name="README.rst" role="doc" />
    <file name="spam.php" role="horde" />
    <file name="whitelist.php" role="horde" />
@@ -198,11 +198,6 @@
  <phprelease>
   <filelist>
    <install as="sam/blacklist.php" name="blacklist.php" />
-   <install as="COPYING" name="COPYING" />
-   <install as="sam/index.php" name="index.php" />
-   <install as="README.rst" name="README.rst" />
-   <install as="sam/spam.php" name="spam.php" />
-   <install as="sam/whitelist.php" name="whitelist.php" />
    <install as="sam/config/.htaccess" name="config/.htaccess" />
    <install as="sam/config/attributes.php" name="config/attributes.php" />
    <install as="sam/config/backends.php" name="config/backends.php" />
@@ -213,24 +208,25 @@
    <install as="CREDITS" name="doc/CREDITS" />
    <install as="INSTALL" name="doc/INSTALL" />
    <install as="TODO" name="doc/TODO" />
+   <install as="sam/index.php" name="index.php" />
    <install as="sam/lib/.htaccess" name="lib/.htaccess" />
    <install as="sam/lib/Api.php" name="lib/Api.php" />
    <install as="sam/lib/Application.php" name="lib/Application.php" />
-   <install as="sam/lib/Exception.php" name="lib/Exception.php" />
-   <install as="sam/lib/Sam.php" name="lib/Sam.php" />
-   <install as="sam/lib/Driver/Base.php" name="lib/Driver/Base.php" />
    <install as="sam/lib/Driver/Amavisd/Sql.php" name="lib/Driver/Amavisd/Sql.php" />
+   <install as="sam/lib/Driver/Base.php" name="lib/Driver/Base.php" />
    <install as="sam/lib/Driver/Spamd/Base.php" name="lib/Driver/Spamd/Base.php" />
    <install as="sam/lib/Driver/Spamd/Ftp.php" name="lib/Driver/Spamd/Ftp.php" />
    <install as="sam/lib/Driver/Spamd/Ldap.php" name="lib/Driver/Spamd/Ldap.php" />
    <install as="sam/lib/Driver/Spamd/Sql.php" name="lib/Driver/Spamd/Sql.php" />
+   <install as="sam/lib/Exception.php" name="lib/Exception.php" />
    <install as="sam/lib/Factory/Driver.php" name="lib/Factory/Driver.php" />
    <install as="sam/lib/Form/Blacklist.php" name="lib/Form/Blacklist.php" />
    <install as="sam/lib/Form/List.php" name="lib/Form/List.php" />
    <install as="sam/lib/Form/Options.php" name="lib/Form/Options.php" />
    <install as="sam/lib/Form/Whitelist.php" name="lib/Form/Whitelist.php" />
+   <install as="sam/lib/Sam.php" name="lib/Sam.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="sam/locale/.htaccess" name="locale/.htaccess" />
-   <install as="sam/locale/sam.pot" name="locale/sam.pot" />
    <install as="sam/locale/cs/LC_MESSAGES/sam.mo" name="locale/cs/LC_MESSAGES/sam.mo" />
    <install as="sam/locale/cs/LC_MESSAGES/sam.po" name="locale/cs/LC_MESSAGES/sam.po" />
    <install as="sam/locale/de/LC_MESSAGES/sam.mo" name="locale/de/LC_MESSAGES/sam.mo" />
@@ -256,13 +252,17 @@
    <install as="sam/locale/nn/LC_MESSAGES/sam.po" name="locale/nn/LC_MESSAGES/sam.po" />
    <install as="sam/locale/ro/LC_MESSAGES/sam.mo" name="locale/ro/LC_MESSAGES/sam.mo" />
    <install as="sam/locale/ro/LC_MESSAGES/sam.po" name="locale/ro/LC_MESSAGES/sam.po" />
+   <install as="sam/locale/sam.pot" name="locale/sam.pot" />
    <install as="sam/locale/zh_TW/LC_MESSAGES/sam.mo" name="locale/zh_TW/LC_MESSAGES/sam.mo" />
    <install as="sam/locale/zh_TW/LC_MESSAGES/sam.po" name="locale/zh_TW/LC_MESSAGES/sam.po" />
    <install as="sam/migration/1_sam_base_tables.php" name="migration/1_sam_base_tables.php" />
+   <install as="README.rst" name="README.rst" />
+   <install as="sam/spam.php" name="spam.php" />
    <install as="sam/themes/default/graphics/blacklist.png" name="themes/default/graphics/blacklist.png" />
    <install as="sam/themes/default/graphics/favicon.ico" name="themes/default/graphics/favicon.ico" />
    <install as="sam/themes/default/graphics/sam.png" name="themes/default/graphics/sam.png" />
    <install as="sam/themes/default/graphics/whitelist.png" name="themes/default/graphics/whitelist.png" />
+   <install as="sam/whitelist.php" name="whitelist.php" />
   </filelist>
  </phprelease>
  <changelog>
@@ -275,7 +275,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2017-10-16</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
 * Initial release.
