@@ -8,3 +8,25 @@ description: >
   that are available.
 list: horde
 type: application
+authors:
+  -
+    name: Jan Schneider
+    user: jan
+    email: jan@horde.org
+    active: true
+    role: lead
+version:
+  release: 1.0.0alpha1
+  api: 1.0.0alpha1
+state:
+  release: alpha
+  api: alpha
+license:
+  identifier: GPL-2.0
+  uri: http://www.horde.org/licenses/gpl
+dependencies:
+  required:
+    php: ^5.3 || ^7
+    pear:
+      pear.horde.org/horde: ^5
+      pear.horde.org/Horde_Core: ^2
