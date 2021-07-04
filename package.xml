@@ -10,7 +10,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-11-11</date>
+ <date>2021-07-04</date>
  <version>
   <release>1.0.0alpha1</release>
   <api>1.0.0alpha1</api>
@@ -21,6 +21,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
+* [rla] Package for H6 / composer installer.
 * [jan] Officially support PHP 7.
 * [jan] Add Hungarian translation (Andras Galos &lt;galosa@netinform.hu&gt;).
 * [jan] Add Latvian translation (Jānis Eisaks).
@@ -248,27 +249,13 @@
  <dependencies>
   <required>
    <php>
-    <min>5.3.0</min>
+    <min>7.0.0</min>
     <max>8.0.0alpha1</max>
     <exclude>8.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
    </pearinstaller>
-   <package>
-    <name>horde</name>
-    <channel>pear.horde.org</channel>
-    <min>5.0.0</min>
-    <max>6.0.0alpha1</max>
-    <exclude>6.0.0alpha1</exclude>
-   </package>
-   <package>
-    <name>Horde_Core</name>
-    <channel>pear.horde.org</channel>
-    <min>2.0.0</min>
-    <max>3.0.0alpha1</max>
-    <exclude>3.0.0alpha1</exclude>
-   </package>
   </required>
  </dependencies>
  <phprelease>
@@ -351,9 +338,10 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2017-11-11</date>
+   <date>2021-07-04</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
+* [rla] Package for H6 / composer installer.
 * [jan] Officially support PHP 7.
 * [jan] Add Hungarian translation (Andras Galos &lt;galosa@netinform.hu&gt;).
 * [jan] Add Latvian translation (Jānis Eisaks).

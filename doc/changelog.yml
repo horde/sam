@@ -4,11 +4,12 @@
   state:
     release: alpha
     api: alpha
-  date: 2017-10-17
+  date: 2021-07-04
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [rla] Package for H6 / composer installer.
     [jan] Officially support PHP 7.
     [jan] Add Hungarian translation (Andras Galos <galosa@netinform.hu>).
     [jan] Add Latvian translation (Jānis Eisaks).
