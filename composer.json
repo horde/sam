@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/sam",
     "description": "Anti-spam user preferences application",
     "type": "horde-application",
@@ -19,10 +20,10 @@
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "*",
+        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || *",
         "php": "^7",
-        "horde/horde": "^6",
-        "horde/core": "^3"
+        "horde/horde": "^6 || dev-FRAMEWORK_6_0",
+        "horde/core": "^3 || dev-FRAMEWORK_6_0"
     },
     "require-dev": {},
     "suggest": {},
