@@ -14,19 +14,13 @@
     "version": "1.0.0alpha1",
     "time": "2017-11-14",
     "repositories": [
-        {
-            "type": "pear",
-            "url": "https://pear.horde.org"
-        }
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/horde": "^5",
-        "pear-pear.horde.org/Horde_Core": "^2"
+        "horde/horde": "^5",
+        "horde/core": "^2"
     },
     "replace": {
-        "pear-pear.horde.org/sam": "1.*",
-        "pear-horde/sam": "1.*"
     },
     "autoload": {
         "psr-0": {
