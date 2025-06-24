@@ -52,7 +52,7 @@ if ($form->isSubmitted() &&
 
 if ($form->validate($vars)) {
     $stackedOptions = array();
-    $form->getInfo($vars, $info);
+    $info = $form->getInfo($vars, $info);
     foreach (Sam::getAttributes() as $key => $attribute) {
         if ($sam_driver->hasCapability($key) && $vars->exists($key)) {
             $data = $info[$key];
