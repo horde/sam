@@ -9,7 +9,6 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |+
-    
 1.0.0alpha1:
   api: 1.0.0alpha1
   state:
@@ -98,3 +97,18 @@
     [crb] Designated the official name of the module to be SAM.
     [crb] Updated all the entries for any authoring copywrites.
     [crb] Made changes to make "coding" fit into the Standard Style.
+1.0.0-alpha3:
+  api: 1.0.0-alpha3
+  state:
+    release: alpha
+    api: alpha
+  date: 2026-03-07
+  license:
+    identifier: GPL-2.0
+    uri: https://spdx.org/licenses/GPL-2.0.html
+  notes: |-
+    fix: Drop unnecessary / uninitialized form parameter
+    fix: getInfo() no longer writes back to second parameter. Use return value.
+    Mark as a H6 app.
+    Add CI job for satis repo update
+    Development mode for sam-1.0.0alpha3

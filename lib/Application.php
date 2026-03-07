@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Sam application API.
  *
  * This file defines Horde's core API interface. Other core Horde libraries
  * can interact with Sam through this API.
  *
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -36,7 +37,7 @@ class Sam_Application extends Horde_Registry_Application
 {
     /**
      */
-    public $version = 'H6 1.0.0alpha2';
+    public $version = '1.0.0-alpha3';
 
     /**
      */
@@ -50,9 +51,15 @@ class Sam_Application extends Horde_Registry_Application
     public function menu($menu)
     {
         if ($GLOBALS['conf']['enable']['rules']) {
-            $menu->add(Horde::url('spam.php'), _("Spam Options"), 'sam.png',
-                       null, null, null,
-                       basename($_SERVER['PHP_SELF']) == 'index.php' ? 'current' : null);
+            $menu->add(
+                Horde::url('spam.php'),
+                _("Spam Options"),
+                'sam.png',
+                null,
+                null,
+                null,
+                basename($_SERVER['PHP_SELF']) == 'index.php' ? 'current' : null
+            );
         }
         try {
             $whitelist_url = $GLOBALS['registry']->link('mail/showWhitelist');
