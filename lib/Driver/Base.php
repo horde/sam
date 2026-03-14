@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sam_Driver_Base defines an API for implementing storage backends for Sam.
  *
@@ -14,14 +15,14 @@ abstract class Sam_Driver_Base
      *
      * @var array
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * The defaults to use if user hasn't defined a value.
      *
      * @var array
      */
-    protected $_defaults = array();
+    protected $_defaults = [];
 
     /**
      * The user name.
@@ -35,14 +36,14 @@ abstract class Sam_Driver_Base
      *
      * @var array
      */
-    protected $_capabilities = array();
+    protected $_capabilities = [];
 
     /**
      * Parameter hash for the backend.
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * Constructor.
@@ -50,7 +51,7 @@ abstract class Sam_Driver_Base
      * @param string $user   A user name.
      * @param array $params  Backend specific class parameters.
      */
-    public function __construct($user, $params = array())
+    public function __construct($user, $params = [])
     {
         $this->_user = $user;
         $this->_params = $params;
@@ -95,7 +96,7 @@ abstract class Sam_Driver_Base
      */
     public function booleanToOption($boolean)
     {
-        return (int)(bool)$boolean;
+        return (int) (bool) $boolean;
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is where you specify what backends people using your
  * installation of Sam can store settings on.
@@ -33,12 +34,12 @@
  */
 
 /* SpamAssassin SQL storage example. */
-$backends['spamd_sql'] = array(
+$backends['spamd_sql'] = [
     'disabled' => false,
     'preferred' => '',
     'hordeauth' => 'full',
     'driver' => 'Spamd_Sql',
-    'params' => array(
+    'params' => [
         // The following parameters are only necessary if they differ from
         // the default Horde SQL settings.
         // 'phptype' => 'mysql',
@@ -51,39 +52,39 @@ $backends['spamd_sql'] = array(
         // This parameter configures the name of the user
         // that owns the site-wide global options.
         'global_user' => '@GLOBAL',
-    ),
-);
+    ],
+];
 
 /* SpamAssassin LDAP storage example. */
-$backends['spamd_ldap'] = array(
+$backends['spamd_ldap'] = [
     // Disabled by default
     'disabled' => true,
     'preferred' => '',
     'hordeauth' => 'full',
     'driver' => 'Spamd_Ldap',
-    'params' => array(
+    'params' => [
         'ldapserver' => 'localhost',
         'basedn' => 'ou=users,dc=example,dc=com',
         'attribute' => 'spamassassinConfig',
         'uid' => 'uid',
-        'defaults' => array(
+        'defaults' => [
             'hit_level' => '5',
             'subject_tag' => '***SPAM***',
             'rewrite_sub' => 1,
             'report_safe' => 1,
             'skip_rbl' => 1,
-        ),
-    ),
-);
+        ],
+    ],
+];
 
 /* SpamAssassin FTP storage example. */
-$backends['spamd_ftp'] = array(
+$backends['spamd_ftp'] = [
     // Disabled by default
     'disabled' => true,
     'preferred' => '',
     'hordeauth' => 'full',
     'driver' => 'Spamd_Ftp',
-    'params' => array(
+    'params' => [
         'hostspec' => 'localhost',
         // Location of system-wide config file. Used for any undefined
         // user prefs.
@@ -91,17 +92,17 @@ $backends['spamd_ftp'] = array(
         // Location of per-user config file.
         'user_prefs' => '.spamassassin/user_prefs',
         'port' => 21,
-    )
-);
+    ],
+];
 
 /* Amavisd-new SQL storage example. */
-$backends['amavisd_sql'] = array(
+$backends['amavisd_sql'] = [
     // Disabled by default
     'disabled' => true,
     'preferred' => '',
     'hordeauth' => 'full',
     'driver' => 'Amavisd_Sql',
-    'params' => array(
+    'params' => [
         // The following parameters are only necessary if they differ from
         // the default Horde SQL settings.
         // 'phptype' => 'mysql',
@@ -116,33 +117,33 @@ $backends['amavisd_sql'] = array(
         // attribute names to those that Amavisd-new will
         // understand. If a table or option isn't specified
         // here, it will be used as-is.
-        'table_map' => array(
-            'recipients' => array(
+        'table_map' => [
+            'recipients' => [
                 'name' => 'users',
-                'field_map' => array(
+                'field_map' => [
                     'id' => 'id',
                     'email' => 'email',
                     'policy_id' => 'policy_id',
-                ),
-            ),
-            'senders' => array(
+                ],
+            ],
+            'senders' => [
                 'name' => 'mailaddr',
-                'field_map' => array(
+                'field_map' => [
                     'id' => 'id',
                     'email' => 'email',
-                ),
-            ),
-            'wblists' => array(
+                ],
+            ],
+            'wblists' => [
                 'name' => 'wblist',
-                'field_map' => array(
+                'field_map' => [
                     'recipient' => 'rid',
                     'sender' => 'sid',
                     'type' => 'wb',
-                ),
-            ),
-            'policies' => array(
+                ],
+            ],
+            'policies' => [
                 'name' => 'policy',
-                'field_map' => array(
+                'field_map' => [
                     'id' => 'id',
                     'name' => 'policy_name',
                     'tag_level' => 'spam_tag_level',
@@ -163,9 +164,9 @@ $backends['amavisd_sql'] = array(
                     'banned_extension' => 'addr_extension_banned',
                     'subject_tag' => 'spam_subject_tag',
                     'subject_tag2' => 'spam_subject_tag2',
-                    'subject_tag3' => 'spam_subject_tag3'
-                ),
-            ),
-        ),
-    ),
-);
+                    'subject_tag3' => 'spam_subject_tag3',
+                ],
+            ],
+        ],
+    ],
+];

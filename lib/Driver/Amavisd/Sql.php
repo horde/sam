@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Sam SQL storage implementation using Horde_Db.
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,27 +26,27 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
      *
      * @var array
      */
-    protected $_capabilities = array('tag_level',
-                                     'hit_level',
-                                     'kill_level',
-                                     'rewrite_sub',
-                                     'spam_extension',
-                                     'virus_extension',
-                                     'banned_extension',
-                                     'spam_quarantine',
-                                     'allow_virus',
-                                     'allow_spam',
-                                     'allow_banned',
-                                     'allow_header',
-                                     'skip_virus',
-                                     'skip_spam',
-                                     'skip_banned',
-                                     'skip_header',
-                                     'whitelist_from',
-                                     'blacklist_from',
-                                     'subject_tag',
-                                     'subject_tag2',
-                                     'subject_tag3');
+    protected $_capabilities = ['tag_level',
+        'hit_level',
+        'kill_level',
+        'rewrite_sub',
+        'spam_extension',
+        'virus_extension',
+        'banned_extension',
+        'spam_quarantine',
+        'allow_virus',
+        'allow_spam',
+        'allow_banned',
+        'allow_header',
+        'skip_virus',
+        'skip_spam',
+        'skip_banned',
+        'skip_header',
+        'whitelist_from',
+        'blacklist_from',
+        'subject_tag',
+        'subject_tag2',
+        'subject_tag3'];
 
     /**
      * Constructor.
@@ -56,12 +57,13 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
      *                       - table_map: (array) A map of table and field
      *                         names. See config/backends.php.
      */
-    public function __construct($user, $params = array())
+    public function __construct($user, $params = [])
     {
-        foreach (array('db', 'table_map') as $param) {
+        foreach (['db', 'table_map'] as $param) {
             if (!isset($params[$param])) {
                 throw new InvalidArgumentException(
-                    sprintf('"%s" parameter is missing', $param));
+                    sprintf('"%s" parameter is missing', $param)
+                );
             }
         }
 
@@ -87,10 +89,13 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
             /* Query for SPAM policy. */
             try {
                 $result = $this->_db->selectOne(
-                    sprintf('SELECT * FROM %s WHERE %s = ?',
-                            $this->_mapNameToTable('policies'),
-                            $this->_mapAttributeToField('policies', 'id')),
-                    array($policyID));
+                    sprintf(
+                        'SELECT * FROM %s WHERE %s = ?',
+                        $this->_mapNameToTable('policies'),
+                        $this->_mapAttributeToField('policies', 'id')
+                    ),
+                    [$policyID]
+                );
             } catch (Horde_Db_Exception $e) {
                 throw new Sam_Exception($e);
             }
@@ -109,12 +114,15 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
         /* Query for whitelists and blacklists. */
         try {
             $result = $this->_db->select(
-                sprintf('SELECT %s, %s FROM %s WHERE %s = ?',
-                        $this->_mapAttributeToField('wblists', 'sender'),
-                        $this->_mapAttributeToField('wblists', 'type'),
-                        $this->_mapNameToTable('wblists'),
-                        $this->_mapAttributeToField('wblists', 'recipient')),
-                array($userID));
+                sprintf(
+                    'SELECT %s, %s FROM %s WHERE %s = ?',
+                    $this->_mapAttributeToField('wblists', 'sender'),
+                    $this->_mapAttributeToField('wblists', 'type'),
+                    $this->_mapNameToTable('wblists'),
+                    $this->_mapAttributeToField('wblists', 'recipient')
+                ),
+                [$userID]
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
@@ -128,11 +136,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
             if (preg_match('/[WYBN]/i', $type)) {
                 try {
                     $sender = $this->_db->selectValue(
-                        sprintf('SELECT %s FROM %s WHERE %s = ?',
-                                $this->_mapAttributeToField('senders', 'email'),
-                                $this->_mapNameToTable('senders'),
-                                $this->_mapAttributeToField('senders', 'id')),
-                        array($senderID));
+                        sprintf(
+                            'SELECT %s FROM %s WHERE %s = ?',
+                            $this->_mapAttributeToField('senders', 'email'),
+                            $this->_mapNameToTable('senders'),
+                            $this->_mapAttributeToField('senders', 'id')
+                        ),
+                        [$senderID]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
@@ -145,7 +156,7 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
                         $this->_options[$list][] = $sender;
                     }
                 } else {
-                    $this->_options[$list] = array($sender);
+                    $this->_options[$list] = [$sender];
                 }
             }
         }
@@ -162,10 +173,10 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
     public function store($defaults = false)
     {
         /* Generate new policy (everything but whitelists and blacklists). */
-        $insertKeys = $insertVals = array();
+        $insertKeys = $insertVals = [];
         foreach ($this->_options as $attribute => $value) {
-            if ($attribute != 'whitelist_from' &&
-                $attribute != 'blacklist_from') {
+            if ($attribute != 'whitelist_from'
+                && $attribute != 'blacklist_from') {
                 $insertKeys[] = $this->_mapAttributeToField('policies', $attribute);
                 $insertVals[] = strlen($value) ? $value : null;
             }
@@ -178,29 +189,35 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
             // Create new policy for user.
             try {
                 $this->_db->insert(
-                    sprintf('INSERT INTO %s (%s, %s) VALUES (%s)',
-                            $this->_mapNameToTable('policies'),
-                            $this->_mapAttributeToField('policies', 'name'),
-                            implode(', ', $insertKeys),
-                            implode(', ', array_fill(0, count($insertVals) + 1, '?'))),
-                    array_merge(array($this->_user), $insertVals));
+                    sprintf(
+                        'INSERT INTO %s (%s, %s) VALUES (%s)',
+                        $this->_mapNameToTable('policies'),
+                        $this->_mapAttributeToField('policies', 'name'),
+                        implode(', ', $insertKeys),
+                        implode(', ', array_fill(0, count($insertVals) + 1, '?'))
+                    ),
+                    array_merge([$this->_user], $insertVals)
+                );
             } catch (Horde_Db_Exception $e) {
                 throw new Sam_Exception($e);
             }
             $policyID = $this->_lookupPolicyID();
         } elseif ($policyID && count($insertKeys)) {
             // Update user's policy.
-            $update = array();
+            $update = [];
             foreach ($insertKeys as $value) {
                 $update[] = $this->_mapAttributeToField('policies', $value) . ' = ?';
             }
             try {
                 $this->_db->update(
-                    sprintf('UPDATE %s SET %s WHERE %s',
-                            $this->_mapNameToTable('policies'),
-                            implode(', ', $update),
-                            $this->_mapAttributeToField('policies', 'id') . ' = ?'),
-                    array_merge($insertVals, array($policyID)));
+                    sprintf(
+                        'UPDATE %s SET %s WHERE %s',
+                        $this->_mapNameToTable('policies'),
+                        implode(', ', $update),
+                        $this->_mapAttributeToField('policies', 'id') . ' = ?'
+                    ),
+                    array_merge($insertVals, [$policyID])
+                );
             } catch (Horde_Db_Exception $e) {
                 throw new Sam_Exception($e);
             }
@@ -209,11 +226,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
         /* Update recipients with new policy id. */
         try {
             $this->_db->update(
-                sprintf('UPDATE %s SET %s = ? WHERE %s = ?',
-                         $this->_mapNameToTable('recipients'),
-                         $this->_mapAttributeToField('recipients', 'policy_id'),
-                         $this->_mapAttributeToField('recipients', 'email')),
-                array($policyID, $this->_user));
+                sprintf(
+                    'UPDATE %s SET %s = ? WHERE %s = ?',
+                    $this->_mapNameToTable('recipients'),
+                    $this->_mapAttributeToField('recipients', 'policy_id'),
+                    $this->_mapAttributeToField('recipients', 'email')
+                ),
+                [$policyID, $this->_user]
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
@@ -224,19 +244,22 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
         /* Query for whitelists and blacklists. */
         try {
             $result = $this->_db->select(
-                sprintf('SELECT %s, %s FROM %s WHERE %s = ?',
-                        $this->_mapAttributeToField('wblists', 'sender'),
-                        $this->_mapAttributeToField('wblists', 'type'),
-                        $this->_mapNameToTable('wblists'),
-                        $this->_mapAttributeToField('wblists', 'recipient')),
-                array($userID));
+                sprintf(
+                    'SELECT %s, %s FROM %s WHERE %s = ?',
+                    $this->_mapAttributeToField('wblists', 'sender'),
+                    $this->_mapAttributeToField('wblists', 'type'),
+                    $this->_mapNameToTable('wblists'),
+                    $this->_mapAttributeToField('wblists', 'recipient')
+                ),
+                [$userID]
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
 
         /* Loop through results, retrieving whitelists and blacklists. */
-        $existing = array('whitelist_from' => array(),
-                          'blacklist_from' => array());
+        $existing = ['whitelist_from' => [],
+            'blacklist_from' => []];
         foreach ($result as $row) {
             $type = $row[$this->_mapAttributeToField('wblists', 'type')];
             $senderID = $row[$this->_mapAttributeToField('wblists', 'sender')];
@@ -245,11 +268,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
             if (preg_match('/[WYBN]/i', $type)) {
                 try {
                     $sender = $this->_db->selectValue(
-                        sprintf('SELECT %s FROM %s WHERE %s = ?',
-                                $this->_mapAttributeToField('senders', 'email'),
-                                $this->_mapNameToTable('senders'),
-                                $this->_mapAttributeToField('senders', 'id')),
-                        array($senderID));
+                        sprintf(
+                            'SELECT %s FROM %s WHERE %s = ?',
+                            $this->_mapAttributeToField('senders', 'email'),
+                            $this->_mapNameToTable('senders'),
+                            $this->_mapAttributeToField('senders', 'id')
+                        ),
+                        [$senderID]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
@@ -258,36 +284,44 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
                     ? 'whitelist_from'
                     : 'blacklist_from';
 
-                if (isset($this->_options[$list]) &&
-                    in_array($sender, $this->_options[$list])) {
+                if (isset($this->_options[$list])
+                    && in_array($sender, $this->_options[$list])) {
                     $existing[$list][] = $sender;
                 } else {
                     /* User removed an address from a list. */
                     try {
                         $this->_db->delete(
-                            sprintf('DELETE FROM %s WHERE %s = ? AND %s = ?',
-                                    $this->_mapNameToTable('wblists'),
-                                    $this->_mapAttributeToField('wblists', 'sender'),
-                                    $this->_mapAttributeToField('wblists', 'recipient')),
-                            array($senderID, $userID));
+                            sprintf(
+                                'DELETE FROM %s WHERE %s = ? AND %s = ?',
+                                $this->_mapNameToTable('wblists'),
+                                $this->_mapAttributeToField('wblists', 'sender'),
+                                $this->_mapAttributeToField('wblists', 'recipient')
+                            ),
+                            [$senderID, $userID]
+                        );
                     } catch (Horde_Db_Exception $e) {
                         throw new Sam_Exception($e);
                     }
 
                     /* Check if there is anyone else using this sender
                      * address. */
-                    $query = sprintf('SELECT 1 FROM %s WHERE %s = ?',
-                                     $this->_mapNameToTable('wblists'),
-                                     $this->_mapAttributeToField('wblists', 'sender'));
-                    if (!$this->_db->selectValue($query, array($senderID))) {
+                    $query = sprintf(
+                        'SELECT 1 FROM %s WHERE %s = ?',
+                        $this->_mapNameToTable('wblists'),
+                        $this->_mapAttributeToField('wblists', 'sender')
+                    );
+                    if (!$this->_db->selectValue($query, [$senderID])) {
                         /* No one else needs this sender address, delete it
                          * from senders table. */
                         try {
                             $this->_db->delete(
-                                sprintf('DELETE FROM %s WHERE %s = ?',
-                                         $this->_mapNameToTable('senders'),
-                                         $this->_mapAttributeToField('senders', 'id')),
-                                array($senderID));
+                                sprintf(
+                                    'DELETE FROM %s WHERE %s = ?',
+                                    $this->_mapNameToTable('senders'),
+                                    $this->_mapAttributeToField('senders', 'id')
+                                ),
+                                [$senderID]
+                            );
                         } catch (Horde_Db_Exception $e) {
                             throw new Sam_Exception($e);
                         }
@@ -297,7 +331,7 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
         }
 
         /* Check any additions to the lists. */
-        foreach (array('whitelist_from' => 'W', 'blacklist_from' => 'B') as $list => $type) {
+        foreach (['whitelist_from' => 'W', 'blacklist_from' => 'B'] as $list => $type) {
             if (!isset($this->_options[$list])) {
                 continue;
             }
@@ -309,11 +343,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
 
                 /* Check if this sender address exists already. */
                 $wb_result = $this->_db->selectValue(
-                    sprintf('SELECT %s FROM %s WHERE %s = ?',
-                            $this->_mapAttributeToField('senders', 'id'),
-                            $this->_mapNameToTable('senders'),
-                            $this->_mapAttributeToField('senders', 'email')),
-                    array($sender));
+                    sprintf(
+                        'SELECT %s FROM %s WHERE %s = ?',
+                        $this->_mapAttributeToField('senders', 'id'),
+                        $this->_mapNameToTable('senders'),
+                        $this->_mapAttributeToField('senders', 'email')
+                    ),
+                    [$sender]
+                );
 
                 if ($wb_result !== false) {
                     /* Address exists, use it's ID */
@@ -322,21 +359,27 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
                     /* Address doesn't exist, add it. */
                     try {
                         $this->_db->insert(
-                            sprintf('INSERT INTO %s (%s) VALUES (?)',
-                                    $this->_mapNameToTable('senders'),
-                                    $this->_mapAttributeToField('senders', 'email')),
-                            array($sender));
+                            sprintf(
+                                'INSERT INTO %s (%s) VALUES (?)',
+                                $this->_mapNameToTable('senders'),
+                                $this->_mapAttributeToField('senders', 'email')
+                            ),
+                            [$sender]
+                        );
                     } catch (Horde_Db_Exception $e) {
                         throw new Sam_Exception($e);
                     }
 
                     try {
                         $senderID = $this->_db->selectValue(
-                            sprintf('SELECT %s FROM %s WHERE %s = ?',
-                                    $this->_mapAttributeToField('senders', 'id'),
-                                    $this->_mapNameToTable('senders'),
-                                    $this->_mapAttributeToField('senders', 'email')),
-                            array($sender));
+                            sprintf(
+                                'SELECT %s FROM %s WHERE %s = ?',
+                                $this->_mapAttributeToField('senders', 'id'),
+                                $this->_mapNameToTable('senders'),
+                                $this->_mapAttributeToField('senders', 'email')
+                            ),
+                            [$sender]
+                        );
                     } catch (Horde_Db_Exception $e) {
                         throw new Sam_Exception($e);
                     }
@@ -344,12 +387,15 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
 
                 try {
                     $this->_db->insert(
-                        sprintf('INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)',
-                                $this->_mapNameToTable('wblists'),
-                                $this->_mapAttributeToField('wblists', 'recipient'),
-                                $this->_mapAttributeToField('wblists', 'sender'),
-                                $this->_mapAttributeToField('wblists', 'type')),
-                        array($userID, $senderID, $type));
+                        sprintf(
+                            'INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)',
+                            $this->_mapNameToTable('wblists'),
+                            $this->_mapAttributeToField('wblists', 'recipient'),
+                            $this->_mapAttributeToField('wblists', 'sender'),
+                            $this->_mapAttributeToField('wblists', 'type')
+                        ),
+                        [$userID, $senderID, $type]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
@@ -359,10 +405,13 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
         /* Remove any disjoined sender IDs. */
         try {
             $this->_db->delete(
-                sprintf('DELETE FROM %s WHERE %s = ?',
-                        $this->_mapNameToTable('wblists'),
-                        $this->_mapAttributeToField('wblists', 'recipient')),
-                array(''));
+                sprintf(
+                    'DELETE FROM %s WHERE %s = ?',
+                    $this->_mapNameToTable('wblists'),
+                    $this->_mapAttributeToField('wblists', 'recipient')
+                ),
+                ['']
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
@@ -390,9 +439,8 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
      */
     protected function _mapNameToTable($table)
     {
-        return isset($this->_params['table_map'][$table]['name'])
-            ? $this->_params['table_map'][$table]['name']
-            : $table;
+        return $this->_params['table_map'][$table]['name']
+            ?? $table;
     }
 
     /**
@@ -407,9 +455,8 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
      */
     protected function _mapAttributeToField($table, $attribute)
     {
-        return isset($this->_params['table_map'][$table]['field_map'][$attribute])
-            ? $this->_params['table_map'][$table]['field_map'][$attribute]
-            : $attribute;
+        return $this->_params['table_map'][$table]['field_map'][$attribute]
+            ?? $attribute;
     }
 
     /**
@@ -423,12 +470,12 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
      */
     protected function _mapFieldToAttribute($table, $field)
     {
-        $attribute_map = array();
+        $attribute_map = [];
         if (isset($this->_params['table_map'][$table]['field_map'])) {
             $attribute_map = array_flip($this->_params['table_map'][$table]['field_map']);
         }
 
-        return isset($attribute_map[$field]) ? $attribute_map[$field] : $field;
+        return $attribute_map[$field] ?? $field;
     }
 
     /**
@@ -442,16 +489,24 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
     {
         try {
             $this->_db->insert(
-                sprintf('INSERT INTO %s (%s) VALUES (?)',
-                        $this->_mapNameToTable('recipients'),
-                        $this->_mapAttributeToField('recipients', 'email')),
-                array($this->_user));
+                sprintf(
+                    'INSERT INTO %s (%s) VALUES (?)',
+                    $this->_mapNameToTable('recipients'),
+                    $this->_mapAttributeToField('recipients', 'email')
+                ),
+                [$this->_user]
+            );
         } catch (Horde_Db_Exception $e) {
-            throw new Sam_Exception(sprintf(_("Cannot create recipient %s: %s"),
-                                            $this->_user, $e->getMessage()));
+            throw new Sam_Exception(sprintf(
+                _("Cannot create recipient %s: %s"),
+                $this->_user,
+                $e->getMessage()
+            ));
         }
-        $GLOBALS['notification']->push(sprintf(_("Recipient created: %s"),
-                                               $this->_user), 'horde.success');
+        $GLOBALS['notification']->push(sprintf(
+            _("Recipient created: %s"),
+            $this->_user
+        ), 'horde.success');
         return $this->_lookupUserID();
     }
 
@@ -466,11 +521,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
     {
         try {
             $userID = $this->_db->selectValue(
-                sprintf('SELECT %s FROM %s WHERE %s = ?',
-                        $this->_mapAttributeToField('recipients', 'id'),
-                        $this->_mapNameToTable('recipients'),
-                        $this->_mapAttributeToField('recipients', 'email')),
-                array($this->_user));
+                sprintf(
+                    'SELECT %s FROM %s WHERE %s = ?',
+                    $this->_mapAttributeToField('recipients', 'id'),
+                    $this->_mapNameToTable('recipients'),
+                    $this->_mapAttributeToField('recipients', 'email')
+                ),
+                [$this->_user]
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
@@ -493,11 +551,14 @@ class Sam_Driver_Amavisd_Sql extends Sam_Driver_Base
     {
         try {
             return $this->_db->selectValue(
-                sprintf('SELECT %s FROM %s WHERE %s = ?',
-                        $this->_mapAttributeToField('policies', 'id'),
-                        $this->_mapNameToTable('policies'),
-                        $this->_mapAttributeToField('policies', 'name')),
-                array($this->_user));
+                sprintf(
+                    'SELECT %s FROM %s WHERE %s = ?',
+                    $this->_mapAttributeToField('policies', 'id'),
+                    $this->_mapNameToTable('policies'),
+                    $this->_mapAttributeToField('policies', 'name')
+                ),
+                [$this->_user]
+            );
         } catch (Horde_Db_Exception $e) {
             return false;
         }

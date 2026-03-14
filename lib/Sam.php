@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Sam base class.
  *
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -42,13 +43,13 @@ class Sam
             } elseif (!empty($temp['preferred'])) {
                 if (is_array($temp['preferred'])) {
                     foreach ($temp['preferred'] as $val) {
-                        if (($val == $_SERVER['SERVER_NAME']) ||
-                            ($val == $_SERVER['HTTP_HOST'])) {
+                        if (($val == $_SERVER['SERVER_NAME'])
+                            || ($val == $_SERVER['HTTP_HOST'])) {
                             $backend = $temp;
                         }
                     }
-                } elseif (($temp['preferred'] == $_SERVER['SERVER_NAME']) ||
-                          ($temp['preferred'] == $_SERVER['HTTP_HOST'])) {
+                } elseif (($temp['preferred'] == $_SERVER['SERVER_NAME'])
+                          || ($temp['preferred'] == $_SERVER['HTTP_HOST'])) {
                     $backend = $temp;
                 }
             }
@@ -64,7 +65,7 @@ class Sam
 
         /* Make sure the 'params' entry exists. */
         if (!isset($backend['params'])) {
-            $backend['params'] = array();
+            $backend['params'] = [];
         }
 
         return $backend;
@@ -101,7 +102,8 @@ class Sam
     {
         return in_array(
             $type,
-            array('description', 'spacer', 'html', 'header', 'link'));
+            ['description', 'spacer', 'html', 'header', 'link']
+        );
     }
 
     /**
@@ -121,7 +123,7 @@ class Sam
     {
         $uid = $GLOBALS['registry']->getAuth($hordeauth === 'full' ? null : 'bare');
         try {
-            return Horde::callHook('username', array($uid), 'sam');
+            return Horde::callHook('username', [$uid], 'sam');
         } catch (Horde_Exception_HookNotSet $e) {
             return $uid;
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sam external API interface.
  *
@@ -12,10 +13,10 @@ class Sam_Api extends Horde_Registry_Api
      *
      * @var array
      */
-    protected $_links = array(
+    protected $_links = [
         'showBlacklist' => '%application%/blacklist.php',
         'showWhitelist' => '%application%/whitelist.php',
-    );
+    ];
 
     public function whitelistFrom($addresses)
     {

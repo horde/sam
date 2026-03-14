@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -29,9 +30,9 @@ $defaults = false;
 /* Page variables. */
 $title = _("Black List Manager");
 
-if ($form->isSubmitted() &&
-    $vars->exists('global_defaults') &&
-    $vars->get('global_defaults')) {
+if ($form->isSubmitted()
+    && $vars->exists('global_defaults')
+    && $vars->get('global_defaults')) {
     if (!$registry->isAdmin()) {
         $notification->push(_("Only an administrator may change the global defaults."), 'horde.error');
         $vars->remove('global_defaults');
@@ -46,7 +47,7 @@ if ($form->isSubmitted() &&
 }
 
 if ($form->validate($vars)) {
-    foreach (array('blacklist_from', 'blacklist_to') as $key) {
+    foreach (['blacklist_from', 'blacklist_to'] as $key) {
         if ($sam_driver->hasCapability($key) && $vars->exists($key)) {
             $sam_driver->setListOption($key, $vars->get($key), $defaults);
         }
@@ -64,9 +65,9 @@ if ($form->validate($vars)) {
     }
 }
 
-$page_output->header(array(
-    'title' => $title
-));
-$notification->notify(array('listeners' => 'status'));
+$page_output->header([
+    'title' => $title,
+]);
+$notification->notify(['listeners' => 'status']);
 $form->renderActive($renderer, $vars, Horde::url('blacklist.php'), 'post');
 $page_output->footer();

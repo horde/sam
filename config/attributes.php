@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the attributes that Sam understands, and their types.
  *
@@ -60,11 +61,11 @@
  *                 value in the backend.
  */
 
-$_attributes['tag_level'] = array(
+$_attributes['tag_level'] = [
     'label' => _("Tag Level"),
     'type' => 'number',
     'required' => false,
-);
+];
 
 /**
  * SpamAssassin 2.x uses the required_hits preference to determine at what
@@ -100,12 +101,12 @@ $_attributes['tag_level'] = array(
 // For SpamAssassin 3+
 // Comment or remove the hit_level attribute if you use this.
 
-$_attributes['score_level'] = array(
+$_attributes['score_level'] = [
     'label' => _("Required Score"),
     'type' => 'number',
     'default' => 5,
     'required' => true,
-);
+];
 
 // Alternatively levels may be defined as a
 // list of values for simplifying user interface.
@@ -126,11 +127,11 @@ $_attributes['score_level'] = array(
 //    )),
 //);
 
-$_attributes['kill_level'] = array(
+$_attributes['kill_level'] = [
     'label' => _("Kill Level"),
     'type' => 'number',
     'required' => false,
-);
+];
 
 /**
  * SpamAssassin 2.x uses two preferences to add a tag to email subjects:
@@ -183,29 +184,29 @@ $_attributes['kill_level'] = array(
 // Comment or remove the subject_tag and rewrite_sub attributes if you use
 // these.
 
-$_attributes['rewrite_header_sub'] = array(
+$_attributes['rewrite_header_sub'] = [
     'label' => _("Rewrite Email Subject"),
     'type' => 'text',
     'required' => false,
     'basepref' => 'rewrite_header',
-    'subtype' => 'Subject'
-);
+    'subtype' => 'Subject',
+];
 
-$_attributes['rewrite_header_to'] = array(
+$_attributes['rewrite_header_to'] = [
     'label' => _("Rewrite To: Address"),
     'type' => 'text',
     'required' => false,
     'basepref' => 'rewrite_header',
-    'subtype' => 'To'
-);
+    'subtype' => 'To',
+];
 
-$_attributes['rewrite_header_from'] = array(
+$_attributes['rewrite_header_from'] = [
     'label' => _("Rewrite From: Address"),
     'type' => 'text',
     'required' => false,
     'basepref' => 'rewrite_header',
-    'subtype' => 'From'
-);
+    'subtype' => 'From',
+];
 
 // As an alternative UI, all boolean types may be configured as radio buttons.
 // For example:
@@ -217,79 +218,79 @@ $_attributes['rewrite_header_from'] = array(
 //    'params' => array(array('Y' => 'Yes',
 //                            'N' => 'No')));
 
-$_attributes['spam_quarantine'] = array(
+$_attributes['spam_quarantine'] = [
     'label' => _("Spam Quarantine Address"),
     'type' => 'text',
     'required' => false,
-);
-$_attributes['report_safe'] = array(
+];
+$_attributes['report_safe'] = [
     'label' => _("Modify messages tagged as spam:"),
     'type' => 'enum',
     'required' => false,
-    'params' => array(array(0 => _("0: Only add X-Spam-* headers"),
-                            1 => _("1: Attach the original message to the report"),
-                            2 => _("2: Attach the original message as plain text to the report")))
-);
-$_attributes['skip_rbl'] = array(
+    'params' => [[0 => _("0: Only add X-Spam-* headers"),
+        1 => _("1: Attach the original message to the report"),
+        2 => _("2: Attach the original message as plain text to the report")]],
+];
+$_attributes['skip_rbl'] = [
     'label' => _("Skip RBL Checks"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['skip_virus'] = array(
+];
+$_attributes['skip_virus'] = [
     'label' => _("Skip Virus Checks"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['skip_spam'] = array(
+];
+$_attributes['skip_spam'] = [
     'label' => _("Skip Spam Checks"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['skip_banned'] = array(
+];
+$_attributes['skip_banned'] = [
     'label' => _("Skip Banned File Checks"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['skip_header'] = array(
+];
+$_attributes['skip_header'] = [
     'label' => _("Skip Bad Header Checks"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['allow_virus'] = array(
+];
+$_attributes['allow_virus'] = [
     'label' => _("Receive Viruses"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['allow_spam'] = array(
+];
+$_attributes['allow_spam'] = [
     'label' => _("Receive Spam"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['allow_banned'] = array(
+];
+$_attributes['allow_banned'] = [
     'label' => _("Receive Banned Files"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['allow_header'] = array(
+];
+$_attributes['allow_header'] = [
     'label' => _("Receive Bad Headers"),
     'type' => 'boolean',
     'required' => false,
-);
-$_attributes['spam_extension'] = array(
+];
+$_attributes['spam_extension'] = [
     'label' => _("Spam Folder"),
     'type' => 'text',
     'required' => false,
-);
-$_attributes['virus_extension'] = array(
+];
+$_attributes['virus_extension'] = [
     'label' => _("Virus Folder"),
     'type' => 'text',
     'required' => false,
-);
-$_attributes['banned_extension'] = array(
+];
+$_attributes['banned_extension'] = [
     'label' => _("Banned Files Folder"),
     'type' => 'text',
     'required' => false,
-);
+];
 
 // The above three settings may alternatively be configured
 // as either a drop-down list of currently existing folders

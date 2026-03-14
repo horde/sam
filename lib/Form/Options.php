@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Form Class for SpamAssassin Options Management.
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -24,20 +25,21 @@ class Sam_Form_Options extends Horde_Form
         }
 
         foreach (Sam::getAttributes() as $key => $attribute) {
-            if (!Sam::infoAttribute($attribute['type']) &&
-                !$sam_driver->hasCapability($key)) {
+            if (!Sam::infoAttribute($attribute['type'])
+                && !$sam_driver->hasCapability($key)) {
                 continue;
             }
-            $var = $this->addVariable($attribute['label'],
-                                      $key, $attribute['type'],
-                                      !empty($attribute['required']),
-                                      !empty($attribute['readonly']),
-                                      isset($attribute['description'])
-                                          ? $attribute['description']
-                                          : null,
-                                      isset($attribute['params'])
-                                          ? $attribute['params']
-                                          : array());
+            $var = $this->addVariable(
+                $attribute['label'],
+                $key,
+                $attribute['type'],
+                !empty($attribute['required']),
+                !empty($attribute['readonly']),
+                $attribute['description']
+                                          ?? null,
+                $attribute['params']
+                                          ?? []
+            );
 
             $var->setHelp($key);
             if (isset($attribute['default'])) {
@@ -86,11 +88,15 @@ class Sam_Form_Options extends Horde_Form
             }
         }
 
-        if ($sam_driver->hasCapability('global_defaults') &&
-            $GLOBALS['registry']->isAdmin()) {
+        if ($sam_driver->hasCapability('global_defaults')
+            && $GLOBALS['registry']->isAdmin()) {
             $this->addVariable('', '', 'spacer', false);
-            $var = $this->addVariable(_("Make Settings Global"),
-                                      'global_defaults', 'boolean', false);
+            $var = $this->addVariable(
+                _("Make Settings Global"),
+                'global_defaults',
+                'boolean',
+                false
+            );
             $var->setHelp('global_defaults');
         }
     }

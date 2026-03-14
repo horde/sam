@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Sam storage implementation for LDAP backend.
 
  * Requires SpamAssassin patch found at:
  * http://bugzilla.spamassassin.org/show_bug.cgi?id=2205
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -36,12 +37,13 @@ class Sam_Driver_Spamd_Ldap extends Sam_Driver_Spamd_Base
      *                       - basedn: (string) The base DN.
      *                       - attribute: (string) The storage attribute.
      */
-    public function __construct($user, $params = array())
+    public function __construct($user, $params = [])
     {
-        foreach (array('ldap', 'uid', 'basedn', 'attribute', 'defaults') as $param) {
+        foreach (['ldap', 'uid', 'basedn', 'attribute', 'defaults'] as $param) {
             if (!isset($params[$param])) {
                 throw new InvalidArgumentException(
-                    sprintf('"%s" parameter is missing', $param));
+                    sprintf('"%s" parameter is missing', $param)
+                );
             }
         }
 
@@ -65,7 +67,8 @@ class Sam_Driver_Spamd_Ldap extends Sam_Driver_Spamd_Base
             $search = $this->_ldap->search(
                 $this->_params['basedn'],
                 Horde_Ldap_Filter::create($this->_params['uid'], 'equals', $this->_user),
-                array('attributes' => array($attrib)));
+                ['attributes' => [$attrib]]
+            );
 
             $entry = $search->shiftEntry();
             if (!$entry) {
@@ -73,13 +76,13 @@ class Sam_Driver_Spamd_Ldap extends Sam_Driver_Spamd_Base
             }
 
             foreach ($entry->getValue($attrib, 'all') as $attribute) {
-                list($a, $v) = explode(' ', $attribute);
+                [$a, $v] = explode(' ', $attribute);
                 $ra = $this->_mapOptionToAttribute($a);
                 if (is_numeric($v)) {
                     if (strstr($v, '.')) {
-                        $newoptions[$ra][] = (float)$v;
+                        $newoptions[$ra][] = (float) $v;
                     } else {
-                        $newoptions[$ra][] = (int)$v;
+                        $newoptions[$ra][] = (int) $v;
                     }
                 } else {
                     $newoptions[$ra][] = $v;
@@ -110,7 +113,7 @@ class Sam_Driver_Spamd_Ldap extends Sam_Driver_Spamd_Base
      */
     public function store($defaults = false)
     {
-        $entry = array();
+        $entry = [];
         foreach ($this->_options as $a => $v) {
             $sa = $this->_mapAttributeToOption($a);
             if (is_array($v)) {
@@ -122,14 +125,17 @@ class Sam_Driver_Spamd_Ldap extends Sam_Driver_Spamd_Base
             }
         }
 
-        $userdn = sprintf('%s=%s,%s',
-                          $this->_params['uid'],
-                          $this->_user,
-                          $this->_params['basedn']);
+        $userdn = sprintf(
+            '%s=%s,%s',
+            $this->_params['uid'],
+            $this->_user,
+            $this->_params['basedn']
+        );
         try {
             $this->_ldap->modify(
                 $userdn,
-                array('replace' => array($this->_params['attribute'] => $entry)));
+                ['replace' => [$this->_params['attribute'] => $entry]]
+            );
         } catch (Horde_Ldap_Exception $e) {
             throw new Sam_Exception($e);
         }

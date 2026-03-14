@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Sam SQL storage implementation using Horde_Db.
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,18 +33,19 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
      *                         use when setting global preferences. Defaults to
      *                         '@GLOBAL'.
      */
-    public function __construct($user, $params = array())
+    public function __construct($user, $params = [])
     {
-        foreach (array('db', 'table') as $param) {
+        foreach (['db', 'table'] as $param) {
             if (!isset($params[$param])) {
                 throw new InvalidArgumentException(
-                    sprintf('"%s" parameter is missing', $param));
+                    sprintf('"%s" parameter is missing', $param)
+                );
             }
         }
 
         $this->_db = $params['db'];
         unset($params['db']);
-        $params = array_merge(array('global_user' => '@GLOBAL'), $params);
+        $params = array_merge(['global_user' => '@GLOBAL'], $params);
         $this->_capabilities[] = 'global_defaults';
 
         parent::__construct($user, $params);
@@ -78,19 +80,20 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
         try {
             $result = $this->_db->select(
                 'SELECT * FROM ' . $this->_params['table'] . ' WHERE username = ?',
-                array($user));
+                [$user]
+            );
         } catch (Horde_Db_Exception $e) {
             throw new Sam_Exception($e);
         }
 
         /* Loop through rows, retrieving options. */
-        $return = array();
+        $return = [];
         foreach ($result as $row) {
             $attribute = $this->_mapOptionToAttribute($row['preference']);
 
             if (isset($return[$attribute])) {
                 if (!is_array($return[$attribute])) {
-                    $return[$attribute] = array($return[$attribute]);
+                    $return[$attribute] = [$return[$attribute]];
                 }
                 if (!in_array($row['value'], $return[$attribute])) {
                     $return[$attribute][] = $row['value'];
@@ -125,13 +128,14 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
             $option = $this->_mapAttributeToOption($attribute);
 
             /* Delete the option if it is the same as the default */
-            if (!$defaults && isset($this->_defaults[$attribute]) &&
-                $this->_defaults[$attribute] === $value) {
+            if (!$defaults && isset($this->_defaults[$attribute])
+                && $this->_defaults[$attribute] === $value) {
                 try {
                     $this->_db->delete(
                         'DELETE FROM ' . $this->_params['table']
                         . ' WHERE username = ? AND preference = ?',
-                        array($user, $option));
+                        [$user, $option]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
@@ -143,17 +147,18 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
                     $this->_db->delete(
                         'DELETE FROM ' . $this->_params['table']
                         . ' WHERE username = ? AND preference = ?',
-                        array($user, $option));
+                        [$user, $option]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
 
                 foreach ($value as $address) {
                     /* Don't save email addresses already in defaults. */
-                    if (!$defaults && isset($this->_defaults[$attribute]) &&
-                        ((is_array($this->_defaults[$attribute]) &&
-                          in_array($address, $this->_defaults[$attribute])) ||
-                         $this->_defaults[$attribute] === $address)) {
+                    if (!$defaults && isset($this->_defaults[$attribute])
+                        && ((is_array($this->_defaults[$attribute])
+                          && in_array($address, $this->_defaults[$attribute]))
+                         || $this->_defaults[$attribute] === $address)) {
                         continue;
                     }
 
@@ -162,7 +167,8 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
                             'INSERT INTO ' . $this->_params['table']
                             . ' (username, preference, value)'
                             . ' VALUES (?, ?, ?)',
-                            array($user, $option, $address));
+                            [$user, $option, $address]
+                        );
                     } catch (Horde_Db_Exception $e) {
                         throw new Sam_Exception($e);
                     }
@@ -172,7 +178,8 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
                     $result = $this->_db->selectValue(
                         'SELECT 1 FROM ' . $this->_params['table']
                         . ' WHERE username = ? AND preference = ?',
-                    array($user, $option));
+                        [$user, $option]
+                    );
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);
                 }
@@ -183,13 +190,15 @@ class Sam_Driver_Spamd_Sql extends Sam_Driver_Spamd_Base
                             'INSERT INTO ' . $this->_params['table']
                             . ' (username, preference, value)'
                             . ' VALUES (?, ?, ?)',
-                        array($user, $option, $value));
+                            [$user, $option, $value]
+                        );
                     } else {
                         $this->_db->insert(
                             'UPDATE ' . $this->_params['table']
                             . ' SET value = ?'
                             . ' WHERE username = ? AND preference = ?',
-                        array($value, $user, $option));
+                            [$value, $user, $option]
+                        );
                     }
                 } catch (Horde_Db_Exception $e) {
                     throw new Sam_Exception($e);

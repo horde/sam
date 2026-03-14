@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -34,9 +35,9 @@ $defaults = false;
 /* Page variables. */
 $title = _("Spam Options");
 
-if ($form->isSubmitted() &&
-    $vars->exists('global_defaults') &&
-    $vars->get('global_defaults')) {
+if ($form->isSubmitted()
+    && $vars->exists('global_defaults')
+    && $vars->get('global_defaults')) {
     if (!$registry->isAdmin()) {
         $notification->push(_("Only an administrator may change the global defaults."), 'horde.error');
         $vars->remove('global_defaults');
@@ -51,17 +52,17 @@ if ($form->isSubmitted() &&
 }
 
 if ($form->validate($vars)) {
-    $stackedOptions = array();
+    $stackedOptions = [];
     $info = $form->getInfo($vars);
     foreach (Sam::getAttributes() as $key => $attribute) {
         if ($sam_driver->hasCapability($key) && $vars->exists($key)) {
             $data = $info[$key];
             if (isset($attribute['basepref'])) {
-               /* SA docs claim that a null value for a rewrite string merely
-                * removes any previous changes to the specified header.  This
-                * should be harmless, and saves needing to add a DELETE
-                * preference call in the backend when the user doesn't use
-                * header rewrites. */
+                /* SA docs claim that a null value for a rewrite string merely
+                 * removes any previous changes to the specified header.  This
+                 * should be harmless, and saves needing to add a DELETE
+                 * preference call in the backend when the user doesn't use
+                 * header rewrites. */
 
                 /* Build string with all basepref entries, separated by
                  * newlines */
@@ -70,8 +71,8 @@ if ($form->validate($vars)) {
                 } else {
                     $stackedOptions[$attribute['basepref']] .= "\n";
                 }
-                $stackedOptions[$attribute['basepref']] .=
-                    $attribute['subtype'] . ' ' . $data;
+                $stackedOptions[$attribute['basepref']]
+                    .= $attribute['subtype'] . ' ' . $data;
             } elseif ($attribute['type'] == 'boolean') {
                 $sam_driver->setOption($key, $sam_driver->booleanToOption($data), $defaults);
             } elseif ($attribute['type'] == 'number') {
@@ -100,9 +101,9 @@ if ($form->validate($vars)) {
     }
 }
 
-$page_output->header(array(
-    'title' => $title
-));
-$notification->notify(array('listeners' => 'status'));
+$page_output->header([
+    'title' => $title,
+]);
+$notification->notify(['listeners' => 'status']);
 $form->renderActive($renderer, $vars, Horde::url('spam.php'), 'post');
 $page_output->footer();

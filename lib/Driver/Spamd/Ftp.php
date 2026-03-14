@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Sam storage implementation for FTP access to the users' user_prefs files.
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,12 +33,13 @@ class Sam_Driver_Spamd_Ftp extends Sam_Driver_Spamd_Base
      *                       - user_prefs: (string) The file with the
      *                         user preferences, relative to the home directory.
      */
-    public function __construct($user, $params = array())
+    public function __construct($user, $params = [])
     {
-        foreach (array('vfs', 'user_prefs') as $param) {
+        foreach (['vfs', 'user_prefs'] as $param) {
             if (!isset($params[$param])) {
                 throw new InvalidArgumentException(
-                    sprintf('"%s" parameter is missing', $param));
+                    sprintf('"%s" parameter is missing', $param)
+                );
             }
         }
 
@@ -58,11 +60,13 @@ class Sam_Driver_Spamd_Ftp extends Sam_Driver_Spamd_Base
         try {
             $content = $this->_vfs->read(
                 dirname($this->_params['system_prefs']),
-                basename($this->_params['system_prefs']));
+                basename($this->_params['system_prefs'])
+            );
             $conf = $this->_parse($content);
             $content = $this->_vfs->read(
                 dirname($this->_params['user_prefs']),
-                basename($this->_params['user_prefs']));
+                basename($this->_params['user_prefs'])
+            );
             $conf = array_merge($conf, $this->_parse($content));
         } catch (Horde_Vfs_Exception $e) {
             throw new Sam_Exception($e);
@@ -99,10 +103,12 @@ class Sam_Driver_Spamd_Ftp extends Sam_Driver_Spamd_Base
 
         /* Write preference file. */
         try {
-            $this->_vfs->writeData(dirname($this->_params['user_prefs']),
-                                   basename($this->_params['user_prefs']),
-                                   $output,
-                                   true);
+            $this->_vfs->writeData(
+                dirname($this->_params['user_prefs']),
+                basename($this->_params['user_prefs']),
+                $output,
+                true
+            );
         } catch (Horde_Vfs_Exception $e) {
             throw new Sam_Exception($e);
         }
@@ -118,7 +124,7 @@ class Sam_Driver_Spamd_Ftp extends Sam_Driver_Spamd_Base
     protected function _parse($config)
     {
         $config = explode("\n", $config);
-        $parsed = array();
+        $parsed = [];
 
         foreach ($config as $line) {
             // Ignore comments and whitespace.

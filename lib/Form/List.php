@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Form class for address list management.
  *
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -12,7 +13,7 @@
  */
 class Sam_Form_List extends Horde_Form
 {
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     public function __construct($vars, $title)
     {
@@ -30,9 +31,15 @@ class Sam_Form_List extends Horde_Form
                 continue;
             }
 
-            $var = $this->addVariable($attribute, $key, 'longtext',
-                                      false, false, null,
-                                      array('5', '40'));
+            $var = $this->addVariable(
+                $attribute,
+                $key,
+                'longtext',
+                false,
+                false,
+                null,
+                ['5', '40']
+            );
             $var->setHelp($key);
 
             if (!$vars->exists($key)) {
@@ -40,11 +47,15 @@ class Sam_Form_List extends Horde_Form
             }
         }
 
-        if ($sam_driver->hasCapability('global_defaults') &&
-            $GLOBALS['registry']->isAdmin()) {
+        if ($sam_driver->hasCapability('global_defaults')
+            && $GLOBALS['registry']->isAdmin()) {
             $this->addVariable('', '', 'spacer', false);
-            $var = $this->addVariable(_("Make Settings Global"),
-                                      'global_defaults', 'boolean', false);
+            $var = $this->addVariable(
+                _("Make Settings Global"),
+                'global_defaults',
+                'boolean',
+                false
+            );
             $var->setHelp('global_defaults');
         }
     }
