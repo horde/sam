@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Sam_Driver factory.
@@ -26,7 +27,7 @@ class Sam_Factory_Driver extends Horde_Core_Factory_Injector
      * @return Sam_Driver_Base
      * @throws Sam_Exception
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         $backend = Sam::getPreferredBackend();
         $signature = hash('md5', serialize($backend));
