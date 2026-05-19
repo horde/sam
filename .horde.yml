@@ -26,11 +26,16 @@ license:
   uri: http://www.horde.org/licenses/gpl
 dependencies:
   required:
-    php: ^7
+    php: ^8
     composer:
       horde/horde: ^6
       horde/core: ^3
 quality:
   phpstan:
     level: 9
+autoload:
+  classmap:
+    - lib/
+  psr-4:
+    Horde\Sam\: src/
 vendor: horde
